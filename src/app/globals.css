@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- palette: acid brutalism / night terminal --- */
+  --color-base: #08080a;
+  --color-ink: #0e0e12;
+  --color-panel: #121216;
+  --color-line: #2e2e38;
+  --color-line-soft: #1c1c24;
+  --color-fg: #f4f4f0;
+  --color-muted: #a2a2b0;
+  --color-dim: #6e6e7d;
+  --color-signal: #c6ff00; /* acid lime — primary */
+  --color-signal-2: #9ed600;
+  --color-amber: #ff6b1a; /* hot orange */
+  --color-violet: #ff2e97; /* magenta */
+  --color-rose: #00e5ff; /* electric cyan */
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* CRT scanlines — fixed, non-interactive, very low alpha so type stays crisp */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: #08080a;
+}
+
+/* --- scrollbar --- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-signal) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-signal);
+  border-radius: 0;
+  border: 3px solid var(--color-base);
+}
+
+/* --- focus rings --- */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: 0;
+}
+
+/* --- blueprint grid backdrop --- */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(46, 46, 56, 0.7) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(46, 46, 56, 0.7) 1px, transparent 1px);
+  background-size: 76px 76px;
+}
+.bg-grid-fade {
+  -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, #000 20%, transparent 78%);
+}
+
+/* --- scroll reveal (transform + opacity only) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- typographic accents --- */
+.text-gradient {
+  background: linear-gradient(96deg, #c6ff00 0%, #00e5ff 46%, #ff2e97 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+}
+
+/* hairline rule with an LED terminal */
+.rule-dot::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--color-signal);
+  box-shadow: 0 0 10px 1px rgba(198, 255, 0, 0.9);
+  margin-right: 0.7rem;
+  vertical-align: middle;
+}
+
+/* --- outlined display type --- */
+.u-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-fg);
+}
+.u-outline-acid {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-signal);
+}
+@supports not (-webkit-text-stroke: 1px black) {
+  .u-outline {
+    color: var(--color-fg);
+  }
+  .u-outline-acid {
+    color: var(--color-signal);
+  }
+}
+
+/* chromatic aberration on hover */
+.u-chromatic {
+  transition: text-shadow 0.2s ease;
+}
+.u-chromatic:hover {
+  text-shadow:
+    -4px 0 var(--color-violet),
+    4px 0 var(--color-rose);
+}
+
+/* --- neobrutalist hard shadow --- */
+.brutal {
+  transition:
+    transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.16s ease,
+    background-color 0.16s ease;
+}
+.brutal:hover,
+.brutal:focus-visible {
+  transform: translate(-5px, -5px);
+  border-color: var(--color-signal);
+  box-shadow: 10px 10px 0 var(--color-signal);
+}
+.brutal--magenta:hover,
+.brutal--magenta:focus-visible {
+  border-color: var(--color-violet);
+  box-shadow: 10px 10px 0 var(--color-violet);
+}
+.brutal--cyan:hover,
+.brutal--cyan:focus-visible {
+  border-color: var(--color-rose);
+  box-shadow: 10px 10px 0 var(--color-rose);
+}
+.brutal--orange:hover,
+.brutal--orange:focus-visible {
+  border-color: var(--color-amber);
+  box-shadow: 10px 10px 0 var(--color-amber);
+}
+
+/* --- ticker blink --- */
+@keyframes led-blink {
+  0%,
+  46% {
+    opacity: 1;
+  }
+  50%,
+  96% {
+    opacity: 0.25;
+  }
+}
+.led {
+  animation: led-blink 2.2s steps(1, end) infinite;
+}
+
+/* --- reduced motion: kill everything, keep content --- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
