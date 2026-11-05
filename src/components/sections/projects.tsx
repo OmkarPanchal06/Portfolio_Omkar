@@ -40,6 +40,22 @@ function RepoLink({ p }: { p: Project }) {
   );
 }
 
+function DemoLink({ p }: { p: Project }) {
+  const a = accentOf(p);
+  if (!p.demo) return null;
+  return (
+    <a
+      href={p.demo}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={`inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] ${a.text} transition-opacity hover:opacity-70`}
+    >
+      <IconExternal className="h-3.5 w-3.5" />
+      Demo
+    </a>
+  );
+}
+
 function FeaturedCard({ p }: { p: Project }) {
   const a = accentOf(p);
   return (
@@ -74,6 +90,7 @@ function FeaturedCard({ p }: { p: Project }) {
 
             <div className="mt-7 flex flex-wrap items-center gap-5">
               <RepoLink p={p} />
+              <DemoLink p={p} />
               <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
                 Infotsav&rsquo;25 · ABV-IIITM Gwalior · 4 contributors
               </span>
@@ -145,6 +162,7 @@ function ProjectCard({ p, delay }: { p: Project; delay: number }) {
 
         <div className="mt-6 flex items-center justify-between border-t-2 border-line pt-4">
           <RepoLink p={p} />
+          <DemoLink p={p} />
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
             {p.kind}
           </span>
