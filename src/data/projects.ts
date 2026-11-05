@@ -37,6 +37,7 @@ export const projects: Project[] = [
     body:
       "An end-to-end emissions tracking system built for the Infotsav'25 hackathon at ABV-IIITM, Gwalior. An ESP32 pairs over Bluetooth and fuses GPS (Neo-6M) with accelerometer (MPU6050) data to detect travel distance, speed and transport mode automatically — no manual logging. Telemetry lands in Supabase with a timestamp and user id, where a Flask API scores it against scientifically validated emission factors. Below 5,000 records the model is rule-based; past that it switches to a scikit-learn estimator trained on real user data. Leaderboards, Carbon Credit Coins and community competitions close the loop on behaviour change.",
     repo: "https://github.com/OmkarPanchal06/Hackatron_TeamHawks",
+    demo: "https://ecopulsex.netlify.app/",
   },
   {
     id: "mediflow",
